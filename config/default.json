@@ -1,0 +1,15 @@
+{
+   "app": {
+    "name" : "iWeb",
+    "env" : "development",
+    "bscriptSalt" : 10,
+    "jwt" : "qswer-hasw12_@",
+    "db" : {
+      "uri" : "mongodb+srv://marirajayt508:blog@cluster0.kstbdew.mongodb.net/?retryWrites=true&w=majority",
+      "collections" : {
+        "userDetails" : "userDetails" ,
+        "blogDetails" : "blogDetails" 
+      }
+    }
+   }
+}
