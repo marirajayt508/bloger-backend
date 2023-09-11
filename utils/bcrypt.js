@@ -9,7 +9,6 @@ exports.encryptPassword = (password)=>{
 
 exports.decryptPassword = (password,hash)=>{
   return bcrypt.compare(password,hash).then((res)=>{
-    console.log(password)
     return res;
   })
 }

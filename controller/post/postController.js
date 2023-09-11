@@ -2,6 +2,7 @@ const codes = require("../../utils/resonsecode")
 const asyncErrorHandler = require("../../utils/asyncErrorHandler")
 const postModal = require("../../modal/blogModal");
 const fs = require("fs")
+const jwt = require("../../utils/jwt")
 
 //Create Post
 exports.addpost = asyncErrorHandler(async (_request,_response,next)=>{
@@ -55,8 +56,20 @@ exports.editpost = asyncErrorHandler(async (_request,_response,next)=>{
 
 //Get All post
 exports.getpost = asyncErrorHandler(async (_request,_response,next)=>{
+    let token = _request.query.aut;
+    let verify = await jwt.jwtVerify(token)
+    if(!token) 
+    {
+        next(err)
+    }
+   var blogs = await  postModal.find()
+    if(verify.role.toLowerCase() === "admin")
+    {
+         blogs = await  postModal.find({
+            "by" : verify.username.toLowerCase()
+        })
+    }
 
-    let blogs = await  postModal.find()
 
     let serviceResponse = {
         blogs

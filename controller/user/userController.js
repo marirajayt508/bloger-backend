@@ -12,7 +12,7 @@ exports.signin = asyncErrorHandler(async (_request,_response,next)=>{
         next(err)
       }
       let query ={
-        "username" : body.username
+        "username" : body.username.toLowerCase()
       }
       let userData = await userModal.findOne(query)
       let password = userData.password;
@@ -29,8 +29,8 @@ exports.signin = asyncErrorHandler(async (_request,_response,next)=>{
 else
 {
     let encData = {
-        "username" : userData.username,
-        "role" : userData.role,
+        "username" : userData.username.toLowerCase(),
+        "role" : userData.role.toLowerCase(),
         "email" : userData.email
     }
     let token = await jwt.jwtEncrypt(encData,"10m")
