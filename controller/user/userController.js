@@ -7,17 +7,19 @@ const bcrypt = require("../../utils/bcrypt")
 exports.signin = asyncErrorHandler(async (_request,_response,next)=>{
 
     let body = _request.body
+    
     if(!(body.username && body.password))
       {
         next(err)
       }
       let query ={
-        "username" : body.username.toLowerCase()
+        "username" : body.username
       }
       let userData = await userModal.findOne(query)
       let password = userData.password;
-      let genToken = body.password != "admin" ? await bcrypt.decryptPassword(body.password,password) : true;
-    if(!genToken)
+      let genToken = await bcrypt.decryptPassword(body.password,password)??true;
+      console.log(password,genToken)
+      if(!genToken)
     {
         let serviceResponse = {
             "message" : "Invalid User",
@@ -33,7 +35,7 @@ else
         "role" : userData.role.toLowerCase(),
         "email" : userData.email
     }
-    let token = await jwt.jwtEncrypt(encData,"10m")
+    let token = await jwt.jwtEncrypt(encData,"1h")
     let serviceResponse = {
         token
   };
